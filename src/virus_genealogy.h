@@ -239,7 +239,8 @@ VirusGenealogy<Virus>::get_parents(const id_type& id) const {
 
 template <typename Virus>
 bool VirusGenealogy<Virus>::exists(const id_type& id) const {
-    return nodes.count(id) != 0;
+    typename global_map::const_iterator found = nodes.find(id);
+    return !(found == nodes.end() || found->second.expired());
 }
 
 
