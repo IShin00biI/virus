@@ -260,6 +260,7 @@ template <typename Virus>
 void VirusGenealogy<Virus>::create
     (const id_type& id, const std::vector<id_type>& parent_ids) {
     if(exists(id)) throw VirusAlreadyCreated{};
+    if(parent_ids.empty()) throw VirusNotFound{};
     for(size_t i = 0; i < parent_ids.size(); ++i)
         if(!exists(parent_ids[i])) throw VirusNotFound{};
 
