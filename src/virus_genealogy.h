@@ -29,17 +29,7 @@ class VirusGenealogy {
 
   private:
     // Node in viruses' graph
-    class Node{
-
-    public:
-        id_type node_id;
-        parents_map parents;
-        children_map children;
-
-        Node(id_type id){
-            node_id = id;
-        }
-    };
+    class Node;
 
     typedef typename Virus::id_type id_type;
     typedef std::shared_ptr<Node> node_sh_ptr;
@@ -68,16 +58,10 @@ class VirusGenealogy {
     VirusGenealogy<Virus>& operator=(const VirusGenealogy<Virus>&) = delete;
 
     // Constructor
-    VirusGenealogy(const id_type& stem_id){
-        Node tmp = Node(stem_id);
-        nodes.insert ( std::pair<id_type ,node_w_ptr>(stem_id,tmp) );
-        stem_node_ptr = stem_id;
-    };
+    VirusGenealogy(const id_type& stem_id);
 
     //
-    id_type get_stem_id() const{
-        return stem_node_ptr;
-    };
+    id_type get_stem_id() const;
 
     //
     std::vector<id_type> get_children(const id_type& id) const;
@@ -85,36 +69,13 @@ class VirusGenealogy {
     std::vector<id_type> get_parents(const id_type& id) const;
 
     //
-    bool exists(const id_type& id) const{
-        global_iterator it = nodes.find(id);
-        return  (it != nodes.end());
-    };
+    bool exists(const id_type& id) const;
 
     //
-    Virus& operator[](const id_type& id) const{
-        global_iterator it = nodes.find(id);
-        if(it != nodes.end()){
-            return *nodes.at(it);
-        } else
-            throw VirusNotFound();
-    };
+    Virus& operator[](const id_type& id) const;
 
     //
-    void create(const id_type& id, const id_type& parent_id){
-        global_iterator it = nodes.find(id);
-        if(it != nodes.end())
-            throw VirusAlreadyCreated();
-        else {
-            it = nodes.find(parent_id);
-            if (it != nodes.end())
-                throw VirusNotFound();
-            else{
-                nodes.at(parent_id).children.insert(nodes.at(id));
-                nodes.insert ( std::pair<id_type ,node_w_ptr>(id,tmp) );
-                nodes.at(id).parent.insert(nodes.at(parent_id));
-            }
-        }
-    };
+    void create(const id_type& id, const id_type& parent_id);
 
     //
     void create(const id_type& id, const std::vector<id_type>& parent_ids);
