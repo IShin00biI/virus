@@ -43,7 +43,7 @@ class VirusGenealogy {
     typedef typename children_map::iterator children_iterator;
 
     typedef typename
-        std::map<id_type, std::pair<node_w_ptr, children_iterator> > parents_map;
+    std::map<id_type, std::pair<node_w_ptr, children_iterator> > parents_map;
     typedef typename parents_map::iterator parents_iterator;
 
     typedef typename std::map<id_type, node_w_ptr> global_map;
@@ -258,7 +258,7 @@ void VirusGenealogy<Virus>::create(const id_type& id, const id_type& parent_id) 
 
 template <typename Virus>
 void VirusGenealogy<Virus>::create
-(const id_type& id, const std::vector<id_type>& parent_ids) {
+    (const id_type& id, const std::vector<id_type>& parent_ids) {
     if(exists(id)) throw VirusAlreadyCreated{};
     for(size_t i = 0; i < parent_ids.size(); ++i)
         if(!exists(parent_ids[i])) throw VirusNotFound{};
@@ -300,14 +300,14 @@ void VirusGenealogy<Virus>::create
 
 template <typename Virus>
 void VirusGenealogy<Virus>::connect
-(const id_type& child_id, const id_type& parent_id) {
+    (const id_type& child_id, const id_type& parent_id) {
     if(!exists(child_id) || !exists(parent_id)) throw VirusNotFound{};
 
     node_sh_ptr child_node_ptr = nodes.at(child_id).lock();
     node_sh_ptr parent_node_ptr = nodes.at(parent_id).lock();
 
     if(parent_node_ptr->children.find(child_id) !=
-        parent_node_ptr->children.end()) return;
+       parent_node_ptr->children.end()) return;
 
     parents_iterator old_parent_iter =
         child_node_ptr->parents.find(parent_id);
