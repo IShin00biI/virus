@@ -69,7 +69,7 @@ class VirusGenealogy {
 
     // Constructor
     VirusGenealogy(const id_type& stem_id){
-        Node tmp = new Node(stem_id);
+        Node tmp = Node(stem_id);
         nodes.insert ( std::pair<id_type ,node_w_ptr>(stem_id,tmp) );
         stem_node_ptr = stem_id;
     };
@@ -80,31 +80,9 @@ class VirusGenealogy {
     };
 
     //
-    std::vector<id_type> get_children(const id_type& id) const{
-        global_iterator it = nodes.find(id);
-        if (it != nodes.end()) {
-            std::vector<id_type> vector_of_children;
-            Node tmp = nodes.at(it);
-            for (auto& x: tmp.children) {
-                vector_of_children.push_back(x);
-            }
-        }
-        else
-            throw VirusNotFound();
-    };
+    std::vector<id_type> get_children(const id_type& id) const;
 
-    std::vector<id_type> get_parents(const id_type& id) const{
-        global_iterator it = nodes.find(id);
-        if (it != nodes.end()) {
-            std::vector<id_type> vector_of_parents;
-            Node tmp = nodes.at(it);
-            for (auto& x: tmp.parents) {
-                vector_of_parents.push_back(x);
-            }
-        }
-        else
-            throw VirusNotFound();
-    };
+    std::vector<id_type> get_parents(const id_type& id) const;
 
     //
     bool exists(const id_type& id) const{
@@ -122,7 +100,21 @@ class VirusGenealogy {
     };
 
     //
-    void create(const id_type& id, const id_type& parent_id);
+    void create(const id_type& id, const id_type& parent_id){
+        global_iterator it = nodes.find(id);
+        if(it != nodes.end())
+            throw VirusAlreadyCreated();
+        else {
+            it = nodes.find(parent_id);
+            if (it != nodes.end())
+                throw VirusNotFound();
+            else{
+                nodes.at(parent_id).children.insert(nodes.at(id));
+                nodes.insert ( std::pair<id_type ,node_w_ptr>(id,tmp) );
+                nodes.at(id).parent.insert(nodes.at(parent_id));
+            }
+        }
+    };
 
     //
     void create(const id_type& id, const std::vector<id_type>& parent_ids);
