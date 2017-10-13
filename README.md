@@ -1,5 +1,7 @@
 # virus
 
+The code does not work!!! It was not debugged before deadline due to lack of time, but may indicate the overall idea and coding style (which was well rated).
+
 **Task description in Polish**
 
 === Zadanie Genealogia Wirusów ===
